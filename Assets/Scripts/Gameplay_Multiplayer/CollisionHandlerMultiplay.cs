@@ -48,6 +48,7 @@ public class CollisionHandlerMultiplay : MonoBehaviour
         {
             case "CheckPoint":
                 playerMovement.StopMovement();
+                playerMovement.StartAutoLevelToVertical();
                 if (other.gameObject.GetComponentInChildren<CheckPointFlagMultiplay>() != null &&
                     !other.gameObject.GetComponentInChildren<CheckPointFlagMultiplay>().IsChecked())
                 {
@@ -57,9 +58,11 @@ public class CollisionHandlerMultiplay : MonoBehaviour
                 break;
             case "SafeZone":
                 playerMovement.StopMovement();
+                playerMovement.StartAutoLevelToVertical();
                 break;
             case "StartPoint":
                 playerMovement.StopMovement();
+                playerMovement.StartAutoLevelToVertical();
                 playerStatus.ResetBoostToFull();
                 break;
             case "Finish":
