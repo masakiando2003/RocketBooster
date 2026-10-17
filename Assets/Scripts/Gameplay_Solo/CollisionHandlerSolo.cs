@@ -55,6 +55,7 @@ public class CollisionHandlerSolo : MonoBehaviour
         {
             case "CheckPoint":
                 playerMovement.StopMovement();
+                playerMovement.StartAutoLevelToVertical();
                 if (other.gameObject.GetComponentInChildren<CheckPointFlagSolo>() != null &&
                     !other.gameObject.GetComponentInChildren<CheckPointFlagSolo>().IsChecked())
                 {
@@ -66,9 +67,11 @@ public class CollisionHandlerSolo : MonoBehaviour
                 break;
             case "SafeZone":
                 playerMovement.StopMovement();
+                playerMovement.StartAutoLevelToVertical();
                 break;
             case "StartPoint":
                 playerMovement.StopMovement();
+                playerMovement.StartAutoLevelToVertical();
                 playerStatus.ResetBoostToFull();
                 break;
             case "Finish":

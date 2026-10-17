@@ -7,7 +7,9 @@ using UnityEngine.UI;
 public class MovementSolo : MonoBehaviour
 {
     [SerializeField] float maxSEVolume = 1f;
-    [SerializeField] float thrustSpeed = 1500f, rotateThrust = 100;
+    [SerializeField] float thrustSpeed = 1500f, rotateThrust = 200;
+    [SerializeField] float autoLevelSpeed = 360f; // 自動垂直化の回転速度(度/秒)
+    [SerializeField] float velocityAlignSpeed = 540f; // 慣性をロケット頂部方向へ向け直す速度(度/秒。大きいほど即座に方向転換)
     [SerializeField] float thrustSpeedUpFactor = 2f, thrustSppedNormalFactor = 1f;
     [SerializeField] float maxSpeed = 50f, slowDownSpeedFactor = 1.0005f;
     [SerializeField] AudioClip mainEngine;
@@ -22,6 +24,7 @@ public class MovementSolo : MonoBehaviour
     AudioSource audioSource;
     PlayerStatusSolo playerStatus;
     bool canControl, canResetRotation;
+    bool isAutoLeveling;
 
     // Start is called before the first frame update
     void Awake()
@@ -36,6 +39,7 @@ public class MovementSolo : MonoBehaviour
     {
         canControl = true;
         canResetRotation = false;
+        isAutoLeveling = false;
         speedFactor = thrustSppedNormalFactor;
         playerID = GetComponent<PlayerStatusSolo>().GetPlayerID();
         if (PlayerPrefs.HasKey("SEVolume"))
@@ -59,6 +63,10 @@ public class MovementSolo : MonoBehaviour
             if (canResetRotation)
             {
                 ProcessResetRotation();
+            }
+            if (isAutoLeveling)
+            {
+                ProcessAutoLevel();
             }
         }
     }
@@ -172,6 +180,7 @@ public class MovementSolo : MonoBehaviour
     private void StartThursting()
     {
         rb.AddRelativeForce(Vector3.up * thrustSpeed * Time.deltaTime * speedFactor);
+        AlignVelocityToHeading();
         if (!audioSource.isPlaying && mainEngine != null)
         {
             audioSource.PlayOneShot(mainEngine);
@@ -184,6 +193,17 @@ public class MovementSolo : MonoBehaviour
     private void LimitMaxmimumSpeed()
     {
         rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed);
+    }
+
+    // 慣性(velocity)の向きをロケット頂部方向(transform.up)へ素早く向け直す。
+    // 速度の大きさは保ったまま方向だけ寄せるので「頂部が向く方向にすぐ進む」操作感になる。
+    private void AlignVelocityToHeading()
+    {
+        float speed = rb.linearVelocity.magnitude;
+        if (speed < 0.01f) { return; }
+        Vector3 newDir = Vector3.RotateTowards(rb.linearVelocity.normalized, transform.up,
+            velocityAlignSpeed * Mathf.Deg2Rad * Time.deltaTime, 0f);
+        rb.linearVelocity = newDir * speed;
     }
 
     public float GetLimitedMaxSpeed()
@@ -243,9 +263,28 @@ public class MovementSolo : MonoBehaviour
 
     private void ApplyRotation(float rotationThisFrame)
     {
+        isAutoLeveling = false; // 手動回転が入ったら自動垂直化を中断
         rb.freezeRotation = true; // Freezing rotation so we can manually rotate
         transform.Rotate(Vector3.forward * rotationThisFrame * Time.deltaTime);
+        rb.angularVelocity = Vector3.zero; // 物理由来の角速度が手動回転を打ち消さないよう即応化
         rb.freezeRotation = false; // Unfreezing rotation so the physics system can take over
+    }
+
+    public void StartAutoLevelToVertical()
+    {
+        isAutoLeveling = true;
+    }
+
+    private void ProcessAutoLevel()
+    {
+        Quaternion target = Quaternion.identity; // 垂直姿勢(Euler 0,0,0)
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, autoLevelSpeed * Time.deltaTime);
+        rb.angularVelocity = Vector3.zero;
+        if (Quaternion.Angle(transform.rotation, target) < 0.1f)
+        {
+            transform.rotation = target;
+            isAutoLeveling = false;
+        }
     }
 
     public void DisablePlayerControl()
