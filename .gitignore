@@ -1,4 +1,5 @@
 /.vsconfig
+/.claude/settings.local.json
 /Library
 /Logs
 /UserSettings
