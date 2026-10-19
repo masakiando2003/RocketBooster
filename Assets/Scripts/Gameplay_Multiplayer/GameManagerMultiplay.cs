@@ -1289,6 +1289,14 @@ public class GameManagerMultiplay : MonoBehaviour
         }
     }
 
+    // playerID(1始まり)に対応する追従カメラを返す。範囲外なら null。
+    public Camera GetFollowPlayerCamera(int playerID)
+    {
+        int index = playerID - 1;
+        if (followPlayerCameras == null || index < 0 || index >= followPlayerCameras.Length) { return null; }
+        return followPlayerCameras[index];
+    }
+
     public RandomItemSettings GetPlayerRandomItemSettings(int playerID)
     {
         //Debug.Log("position1: " + playerRemainingDistances.Keys.ToList().IndexOf(playerID-1));

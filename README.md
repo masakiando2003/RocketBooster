@@ -113,7 +113,7 @@ Title                         タイトル
 ## 優先度: 中(パフォーマンス・安定性)
 
 4. **`Update()` 内の `FindObjectOfType`** → シングルトン `Instance` を使用(✅ Step 1 で対応済み)。
-5. **文字列連結の `GameObject.Find`**(`"FollowPlayer"+id+"Camera"`)を配列参照に。
+5. **文字列連結の `GameObject.Find`**(`"FollowPlayer"+id+"Camera"`)を配列参照に(✅ 対応済み。`GameManagerMultiplay.GetFollowPlayerCamera` 経由)。
 6. **タグ比較を `CompareTag` に統一**(✅ 対応済み)。
 7. **エラーハンドリング不在** — JSON パースや PlayerPrefs にフォールバックを。
 8. **ランキング永続化の整理**(TextAsset + PlayerPrefs の二層構造)。
@@ -124,7 +124,7 @@ Title                         タイトル
 10. グローバルな `static` 可変状態(TempSave 群)の初期化・`ScriptableObject` 化。
 11. 命名タイプミス(`DisplayLanauge` / `Closet` / `Elasped` 等)の修正。
 12. 残存 `Debug.Log` の除去(✅ 対応済み)。
-13. コメントアウトされた死コードの削除。
+13. コメントアウトされた死コードの削除(🔶 一部対応。`currentBoostFillArea`/旧 `boostSlider`/`Rotate360` の未使用実装を削除。意図的な機能トグル・デバッグフックは保持)。
 14. 自動テストの導入(Unity Test Framework)。
 
 ## 補足(運用)

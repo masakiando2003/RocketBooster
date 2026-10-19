@@ -9,7 +9,6 @@ public class PlayerStatusSolo : MonoBehaviour
     [SerializeField] int playerMaxLife = 10;
     [SerializeField] float playerMaxBoost = 100f, boostFactor = 10f;
     [SerializeField] Image boostSliderFilter;
-    //[SerializeField] Image currentBoostFillArea;
     [SerializeField] Color normalColor;
     [SerializeField] Color explodedColor;
     [SerializeField] Material playerMaterial;
@@ -29,12 +28,10 @@ public class PlayerStatusSolo : MonoBehaviour
         playerMaterial.color = Color.white;
         currentLife = playerMaxLife;
         playerCurrentBoost = playerMaxBoost;
-        //currentBoostFillArea.color = Color.blue;
     }
 
     public void UpdatePlayerBoostSlider()
     {
-        //boostSlider.value = GetBoostSliderValue();
         boostSliderFilter.fillAmount = GetBoostSliderValue();
         ChangePlayerBoostSliderColor();
     }
@@ -48,17 +45,14 @@ public class PlayerStatusSolo : MonoBehaviour
     {
         if (GetBoostSliderValue() >= 0.5)
         {
-            //currentBoostFillArea.color = Color.blue;
             boostSliderFilter.color = Color.blue;
         }
         else if (GetBoostSliderValue() >= 0.2)
         {
-            //currentBoostFillArea.color = Color.yellow;
             boostSliderFilter.color = Color.yellow;
         }
         else
         {
-            //currentBoostFillArea.color = Color.red;
             boostSliderFilter.color = Color.red;
         }
     }

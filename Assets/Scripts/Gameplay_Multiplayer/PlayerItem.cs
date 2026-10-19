@@ -305,7 +305,7 @@ public class PlayerItem : MonoBehaviour
                 GameObject playerAttackItem = Instantiate(playerItem);
                 playerAttackItem.GetComponent<Missile>().SetTargetPlayer(targetPlayer);
                 //Debug.Log("Target Player ID: "+targetPlayerID);
-                Camera targetPlayerCamera = GameObject.Find("FollowPlayer" + targetPlayerID + "Camera").GetComponent<Camera>();
+                Camera targetPlayerCamera = GameManagerMultiplay.Instance.GetFollowPlayerCamera(targetPlayerID);
                 playerAttackItem.GetComponent<Missile>().SetTargetPlayerCamera(targetPlayerCamera);
                 if (playerAttackItem.transform.position.x >= targetPlayer.transform.position.x)
                 {
