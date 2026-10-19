@@ -468,7 +468,7 @@ public class GameManagerMultiplay : MonoBehaviour
     private void ShowCheckPoint(int playerIndex)
     {
         string currentCheckPoint = lastCheckPointPositions[playerIndex].gameObject.name;
-        Debug.Log("currentCheckPoint: " + currentCheckPoint);
+        //Debug.Log("currentCheckPoint: " + currentCheckPoint);
         if (currentCheckPoint.Contains("Start"))
         {
             currentCheckPoint = "Start";
@@ -1146,7 +1146,7 @@ public class GameManagerMultiplay : MonoBehaviour
                 minDistance = distanceInfo.Value;
             }
         }
-        Debug.Log("positionIndex: " + positionIndex);
+        //Debug.Log("positionIndex: " + positionIndex);
 
         float totalMovedDistance = 0f;
         if (positionIndex == 0)
@@ -1291,9 +1291,9 @@ public class GameManagerMultiplay : MonoBehaviour
 
     public RandomItemSettings GetPlayerRandomItemSettings(int playerID)
     {
-        Debug.Log("position1: " + playerRemainingDistances.Keys.ToList().IndexOf(playerID-1));
+        //Debug.Log("position1: " + playerRemainingDistances.Keys.ToList().IndexOf(playerID-1));
         int position = playerRemainingDistances.Keys.ToList().IndexOf(playerID) - 1 >= 0 ? playerRemainingDistances.Keys.ToList().IndexOf(playerID) - 1 : 0;
-        Debug.Log("position2: "+position);
+        //Debug.Log("position2: "+position);
         return playerRandomItemSettings[position];
     }
 }

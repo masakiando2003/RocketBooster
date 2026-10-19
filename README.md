@@ -108,7 +108,7 @@ Title                         タイトル
 
 1. **巨大な God Class の分割** — `GameManagerMultiplay.cs`(約1300行)、`GameManagerSolo.cs`(約1100行)、`Instructions_1P.cs`(約750行)、`Option.cs`(約660行)が進行・UI・カメラ・アイテム・ランキング・ローカライズを抱え込んでいる。`UIManager` / `RankingService` などへ責務分離を推奨。
 2. **Solo と Multiplay の重複コード** — `MovementSolo`↔`MovementMultiplay`、`GameManagerSolo`↔`GameManagerMultiplay` など並行クラスが二重管理。共通部分を基底クラスへ抽出。
-3. **ローカライズ機構の堅牢化** — `Localization.GetLabelContent` が線形検索かつラベル未定義で例外。`Dictionary` 化とフォールバックを。
+3. **ローカライズ機構の堅牢化** — `Localization.GetLabelContent` を `Dictionary` 化し、未定義ラベルは例外で落とさずキー名を返すフォールバックに(✅ 対応済み)。
 
 ## 優先度: 中(パフォーマンス・安定性)
 

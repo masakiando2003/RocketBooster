@@ -667,7 +667,7 @@ public class GameManagerSolo : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("1PPause"))
             {
-                Debug.Log("Pause Game Test");
+                //Debug.Log("Pause Game Test");
                 PauseGame();
             }
         }
@@ -675,7 +675,7 @@ public class GameManagerSolo : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("1PPause"))
             {
-                Debug.Log("Resume Game Test");
+                //Debug.Log("Resume Game Test");
                 ResumeGame();
             }
         }
@@ -811,10 +811,10 @@ public class GameManagerSolo : MonoBehaviour
         RankingJson rankingJson = JsonUtility.FromJson<RankingJson>(rankingDataFile.text);
         foreach (RankingData data in rankingJson.detail)
         {
-            Debug.Log("Index: " + index);
+            //Debug.Log("Index: " + index);
             string playerCheckPointIndexKey = Difficulty_1P_TempSave.chosenDifficulty + "_CheckPointIndex_" + (index + 1).ToString();
             int dataCheckPointIndex = PlayerPrefs.HasKey(playerCheckPointIndexKey) ? PlayerPrefs.GetInt(playerCheckPointIndexKey) : data.checkPointIndex;
-            Debug.Log(rankingData.checkPointIndex+" --- "+ dataCheckPointIndex);
+            //Debug.Log(rankingData.checkPointIndex+" --- "+ dataCheckPointIndex);
             if(rankingData.checkPointIndex >= dataCheckPointIndex)
             {
                 if (rankingData.checkPointIndex == dataCheckPointIndex)
@@ -1042,7 +1042,7 @@ public class GameManagerSolo : MonoBehaviour
 
     private void UpdateRankingByPlayerPref(RankingJson rankingJson)
     {
-        Debug.Log("rankingJson.detail.Length: "+ rankingJson.detail.Length);
+        //Debug.Log("rankingJson.detail.Length: "+ rankingJson.detail.Length);
         for (int i = 1; i <= rankingJson.detail.Length; i++)
         {
             string playerNameKey = Difficulty_1P_TempSave.chosenDifficulty + "_PlayerName_" + i.ToString();
