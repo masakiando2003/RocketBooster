@@ -357,7 +357,17 @@ public class Option : MonoBehaviour
                 rankingDataFile = rankingDataHardFile;
                 break;
         }
-        RankingJson rankingJson = JsonUtility.FromJson<RankingJson>(rankingDataFile.text);
+        if (rankingDataFile == null) { return; }
+        RankingJson rankingJson;
+        try { rankingJson = JsonUtility.FromJson<RankingJson>(rankingDataFile.text); }
+        catch (System.Exception e)
+        {
+#if UNITY_EDITOR
+            Debug.LogWarning("[Ranking] JSON parse failed in " + rankingDataFile.name + ": " + e.Message);
+#endif
+            return;
+        }
+        if (rankingJson == null || rankingJson.detail == null) { return; }
         foreach (RankingData data in rankingJson.detail)
         {
             switch (difficulty)
@@ -582,7 +592,17 @@ public class Option : MonoBehaviour
                 rankingDataFile = rankingDefaultDataHardFile;
                 break;
         }
-        RankingJson rankingJson = JsonUtility.FromJson<RankingJson>(rankingDataFile.text);
+        if (rankingDataFile == null) { return; }
+        RankingJson rankingJson;
+        try { rankingJson = JsonUtility.FromJson<RankingJson>(rankingDataFile.text); }
+        catch (System.Exception e)
+        {
+#if UNITY_EDITOR
+            Debug.LogWarning("[Ranking] JSON parse failed in " + rankingDataFile.name + ": " + e.Message);
+#endif
+            return;
+        }
+        if (rankingJson == null || rankingJson.detail == null) { return; }
         string saveRankingData = JsonUtility.ToJson(rankingJson, true);
         //Debug.Log(saveRankingData);
         for (int i = 1; i <= numPlayers; i++)
