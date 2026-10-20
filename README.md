@@ -115,7 +115,7 @@ Title                         タイトル
 4. **`Update()` 内の `FindObjectOfType`** → シングルトン `Instance` を使用(✅ Step 1 で対応済み)。
 5. **文字列連結の `GameObject.Find`**(`"FollowPlayer"+id+"Camera"`)を配列参照に(✅ 対応済み。`GameManagerMultiplay.GetFollowPlayerCamera` 経由)。
 6. **タグ比較を `CompareTag` に統一**(✅ 対応済み)。
-7. **エラーハンドリング不在** — JSON パースや PlayerPrefs にフォールバックを。
+7. **エラーハンドリング** — ランキング JSON パース(`JsonUtility.FromJson`)5箇所を `try/catch` + `detail` null チェックで防御し、壊れた/欠損データでも落ちずにスキップ(🔶 一部対応。ランキング周りを優先実施。PlayerPrefs 等は今後)。
 8. **ランキング永続化の整理**(TextAsset + PlayerPrefs の二層構造)。
 
 ## 優先度: 低(コード品質)

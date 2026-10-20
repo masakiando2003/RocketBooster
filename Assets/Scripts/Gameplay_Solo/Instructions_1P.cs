@@ -359,7 +359,16 @@ public class Instructions_1P : MonoBehaviour
     {
         if (rankingDataFile == null) { return; }
         int index = 0;
-        RankingJson rankingJson = JsonUtility.FromJson<RankingJson>(rankingDataFile.text);
+        RankingJson rankingJson;
+        try { rankingJson = JsonUtility.FromJson<RankingJson>(rankingDataFile.text); }
+        catch (System.Exception e)
+        {
+#if UNITY_EDITOR
+            Debug.LogWarning("[Ranking] JSON parse failed in " + rankingDataFile.name + ": " + e.Message);
+#endif
+            return;
+        }
+        if (rankingJson == null || rankingJson.detail == null) { return; }
         foreach (RankingData data in rankingJson.detail)
         {
             if(PlayerPrefs.HasKey(Difficulty_1P_TempSave.chosenDifficulty + "_PlayerName_" + (index + 1)))
