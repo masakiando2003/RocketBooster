@@ -107,7 +107,7 @@ Title                         タイトル
 ## 優先度: 高(設計・保守性)
 
 1. **巨大な God Class の分割** — `GameManagerMultiplay.cs`(約1300行)、`GameManagerSolo.cs`(約1100行)、`Instructions_1P.cs`(約750行)、`Option.cs`(約660行)が進行・UI・カメラ・アイテム・ランキング・ローカライズを抱え込んでいる。`UIManager` / `RankingService` などへ責務分離を推奨。
-   - 🔶 一部対応: `GameManagerSolo` を `partial class` で分割開始(ランキング系を `GameManagerSolo.Ranking.cs` へ切り出し、本体 1109→758行)。Inspector 再配線を避ける安全な第一歩。Multiplay・HUD 分割や真のサービス分離は今後。
+   - 🔶 一部対応: `partial class` 方式で分割中(Inspector 再配線を避ける安全策)。`GameManagerSolo` のランキング系を `GameManagerSolo.Ranking.cs` へ(1109→758行)、`GameManagerMultiplay` のアイテム効果・標的探索を `GameManagerMultiplay.ItemEffects.cs` へ(1307→883行)切り出し済み。HUD/距離系の分割や真のサービス分離は今後。
 2. **Solo と Multiplay の重複コード** — `MovementSolo`↔`MovementMultiplay`、`GameManagerSolo`↔`GameManagerMultiplay` など並行クラスが二重管理。共通部分を基底クラスへ抽出。
 3. **ローカライズ機構の堅牢化** — `Localization.GetLabelContent` を `Dictionary` 化し、未定義ラベルは例外で落とさずキー名を返すフォールバックに(✅ 対応済み)。
 
